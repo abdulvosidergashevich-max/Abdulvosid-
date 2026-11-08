@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rubob Tab</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#E9EEF2;--sf:#FFFFFF;--ink:#14233B;--mu:#5C6B82;--ln:#B3C1D0;--str:#8FA2B6;--ac:#0B7F77;--acx:#FFFFFF;--hot:#E3A21A;--hotbg:rgba(227,162,26,.25);color-scheme:light;
+ background:var(--bg);box-sizing:border-box;padding-top:var(--safe-area-inset-top,env(safe-area-inset-top,0px));padding-bottom:var(--safe-area-inset-bottom,env(safe-area-inset-bottom,0px))}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1A2E;--sf:#17263F;--ink:#E8EEF5;--mu:#93A3BB;--ln:#31456A;--str:#4A6190;--ac:#33C3B5;--acx:#06201D;--hot:#F2B134;--hotbg:rgba(242,177,52,.2);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1A2E;--sf:#17263F;--ink:#E8EEF5;--mu:#93A3BB;--ln:#31456A;--str:#4A6190;--ac:#33C3B5;--acx:#06201D;--hot:#F2B134;--hotbg:rgba(242,177,52,.2);color-scheme:dark}
+html,body{height:100%;margin:0}
+html,body{overscroll-behavior:none}
+button{-webkit-user-select:none;user-select:none}
+body{display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:500 15px Manrope,system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overflow:hidden}
+[hidden]{display:none!important}
+button,select,input{font:inherit;color:inherit}
+button{background:var(--sf);border:1px solid var(--ln);border-radius:10px;min-height:44px;padding:0 14px;cursor:pointer;font-weight:700}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+header{display:flex;align-items:center;gap:8px;padding:10px 14px 6px}
+#title{flex:1;min-width:0;background:none;border:0;border-bottom:1px dashed var(--ln);font:700 24px Fraunces,Georgia,serif;padding:4px 0;color:var(--ink)}
+#title::placeholder{color:var(--mu);opacity:.7}
+#thm{width:44px;padding:0;border-radius:50%}
+main{flex:1;min-height:0;display:flex;flex-direction:column}
+.view{display:none;flex:1;min-height:0;flex-direction:column}
+.view.on{display:flex}
+#wrap{flex:1;overflow:auto;padding:10px 0;overscroll-behavior:contain}
+#grid{display:grid;width:max-content;align-content:start}
+.l{position:sticky;left:0;z-index:2;background:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--mu)}
+.c{position:relative;height:42px;min-height:0;border:0;border-radius:0;background:none;padding:0;font-size:16px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.c::before{content:"";position:absolute;left:0;right:0;top:50%;height:var(--t);background:var(--str);transform:translateY(-50%)}
+.c span{position:relative;display:inline-block;min-width:26px;padding:2px 0;border-radius:6px;background:var(--bg)}
+.c span:empty{background:none}
+.c.b{box-shadow:inset 2px 0 0 var(--ln)}
+.c.ph{background:var(--hotbg)}
+.c.sel::after{content:"";position:absolute;inset:6px 4px;border:2px solid var(--ac);border-radius:8px}
+.c.sel span{background:var(--ac);color:var(--acx)}
+.rb{display:flex;align-items:center;gap:8px;padding:6px 12px 0}
+.rb .rc{flex:1;color:var(--mu);font-size:13px}
+.rb button{min-height:36px;padding:0 12px}
+.rb button:disabled{opacity:.4;cursor:default}
+.hint{margin:6px 14px;color:var(--mu);font-size:14px}
+.d{height:32px;min-height:0;border:0;border-radius:0;background:none;padding:0;font-size:10px;color:var(--mu);font-variant-numeric:tabular-nums;overflow:hidden;white-space:nowrap}
+.d.cur{color:var(--ac);box-shadow:inset 0 -3px 0 var(--ac)}
+.d.rs,.c.rs{background:repeating-linear-gradient(135deg,transparent 0 5px,var(--hotbg) 5px 8px)}
+.d.ph,.c.rs.ph{background:var(--hotbg)}
+#acts{grid-template-columns:repeat(4,.8fr) .8fr 1.6fr .8fr}
+.g6 button.act{background:var(--ac);color:var(--acx);border-color:var(--ac)}
+#pad{padding:10px 12px;background:var(--sf);border-top:1px solid var(--ln);display:grid;gap:8px}
+.g6{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.g6 button{padding:0;min-height:38px;background:var(--bg)}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px;background:var(--sf);border-top:1px solid var(--ln)}
+.pri{background:var(--ac);color:var(--acx);border-color:var(--ac);border-radius:999px;padding:0 24px}
+.pri.on{background:var(--hot);border-color:var(--hot);color:#14233B}
+.bpm{flex:1;min-width:150px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mu)}
+.bpm input{flex:1;accent-color:var(--ac)}
+.bpm b{color:var(--ink);min-width:2.2em}
+.pg{padding:14px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.tr{display:flex;align-items:center;gap:8px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:8px 10px}
+.tr span{flex:1;font-weight:700}
+select{min-height:44px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);padding:0 8px}
+.note{color:var(--mu);font-size:14px;margin:4px 0}
+pre{margin:0;padding:14px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;overflow:auto;font:500 14px/1.5 ui-monospace,Menlo,Consolas,monospace;user-select:text}
+nav{display:flex;background:var(--sf);border-top:1px solid var(--ln)}
+nav button{flex:1;border:0;border-radius:0;min-height:52px;background:none;color:var(--mu);box-shadow:inset 0 3px 0 transparent}
+nav button.on{color:var(--ac);box-shadow:inset 0 3px 0 var(--ac)}
+@media(prefers-reduced-motion:no-preference){.c.ph{transition:background .08s}}
+</style>
+</head>
+<body>
+<header>
+  <input id="title" placeholder="Kuy nomi" aria-label="Kuy nomi" maxlength="60">
+  <button id="thm" aria-label="Rang mavzusi">◐</button>
+</header>
+<main>
+  <section id="v-tab" class="view on">
+    <div id="wrap"><div id="grid"></div></div>
+    <div class="rb"><span class="rc"></span><button class="addS">+ Qator</button><button class="remS">− Qator</button></div>
+    <p class="hint" id="hint">Katakni bosing, soʻng parda raqami, choʻzim yoki pauza tanlang.</p>
+    <div id="pad" hidden>
+      <div class="g6" id="nums"></div>
+      <div class="g6" id="dur"></div>
+      <div class="g6" id="acts">
+        <button data-a="l" aria-label="Chapga">◀</button>
+        <button data-a="r" aria-label="Oʻngga">▶</button>
+        <button data-a="u" aria-label="Yuqori tor">▲</button>
+        <button data-a="d" aria-label="Pastki tor">▼</button>
+        <button data-a="c" aria-label="Katakni tozalash">⌫</button>
+        <button data-a="p">Pauza</button>
+        <button data-a="x" aria-label="Yopish">✕</button>
+      </div>
+    </div>
+    <div class="bar">
+      <button class="pri" id="play">Ijro etish</button>
+      <label class="bpm">Tempo <input type="range" id="bpm" min="40" max="200"><b id="bv"></b></label>
+      <button id="addc">+ Takt</button>
+      <button id="remc">− Takt</button>
+    </div>
+  </section>
+  <section id="v-set" class="view">
+    <div class="pg">
+      <p class="note">Rubobingiz sozlamasini kiriting. Yuqoridan pastga: 1-tor eng yuqori ovozli.</p>
+      <div id="tun" style="display:grid;gap:8px"></div>
+      <div class="rb" style="padding:0"><span class="rc"></span><button class="addS">+ Tor qoʻshish</button><button class="remS">− Tor olish</button></div>
+      <button id="wipe">Hammasini tozalash</button>
+    </div>
+  </section>
+  <section id="v-txt" class="view">
+    <div class="pg">
+      <pre id="out"></pre>
+      <button id="copy" class="pri">Nusxa olish</button>
+    </div>
+  </section>
+</main>
+<nav>
+  <button class="on" data-v="tab">Tab</button>
+  <button data-v="set">Sozlama</button>
+  <button data-v="txt">Matn</button>
+</nav>
+<script>
+const NN=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],R=document.documentElement;
+const $=id=>document.getElementById(id);
+const def=()=>({v:1,title:"",bpm:90,cols:16,du:Array(16).fill(2),rs:Array(16).fill(0),tun:["A4"],cells:[Array(16).fill(null)]});
+function load(){try{const j=JSON.parse(localStorage.getItem("rubob-tab")||"null");if(j&&j.cells&&j.tun&&j.cells.length>=1&&j.cells.length<=6&&j.cells.length==j.tun.length){j.du=j.du||[];j.rs=j.rs||[];for(let c=0;c<j.cols;c++){if(!j.du[c])j.du[c]=2;if(!j.rs[c])j.rs[c]=0}j.du.length=j.rs.length=j.cols;if(!j.v){while(j.tun.length>1&&j.cells[j.cells.length-1].every(v=>v==null)){j.tun.pop();j.cells.pop()}j.v=1}return j}}catch(e){}return def()}
+let S=load(),sel=null,playing=false,timer=null,ac=null;
+const save=()=>{try{localStorage.setItem("rubob-tab",JSON.stringify(S))}catch(e){}};
+const midi=t=>{const m=t.match(/^([A-G]#?)(\d)$/);return NN.indexOf(m[1])+12*(+m[2]+1)};
+const freq=(s,f)=>440*Math.pow(2,(midi(S.tun[s])+f-69)/12);
+function pluck(f,d){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();ac.resume();const L=d?Math.min(2.5,Math.max(.25,d*1.15)):1.4,t=ac.currentTime,o=ac.createOscillator(),lp=ac.createBiquadFilter(),g=ac.createGain();
+ o.type="sawtooth";o.frequency.value=f;lp.type="lowpass";lp.frequency.setValueAtTime(Math.min(f*6,8000),t);lp.frequency.exponentialRampToValueAtTime(f*1.2,t+Math.min(.5,L));
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.26,t+.004);g.gain.exponentialRampToValueAtTime(.001,t+L);
+ o.connect(lp);lp.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+L+.1)}catch(e){}}
+const el=(s,c)=>document.querySelector('.c[data-s="'+s+'"][data-c="'+c+'"]');
+const wd=u=>Math.round(36+7*Math.log2(u)),DB=[1,2,4,8,16],DL={1:"1/16",2:"1/8",4:"1/4",8:"1/2",16:"1"},DC={1:"16",2:"8",4:"4",8:"2",16:"1"};
+const bs=u=>DB.find(b=>b==u||b*1.5==u),dsec=c=>S.du[c]*15/S.bpm;
+const colX=c=>{let x=40;for(let i=0;i<c;i++)x+=wd(S.du[i]);return x};
+function grid(){const g=$("grid");g.style.gridTemplateColumns="40px "+S.du.map(u=>wd(u)+"px").join(" ");let h="";
+ for(let s=0;s<S.tun.length;s++){h+='<div class="l">'+S.tun[s]+'</div>';
+  for(let c=0;c<S.cols;c++){const v=S.cells[s][c];
+   h+='<button class="c'+(c&&c%4==0?" b":"")+(S.rs[c]?" rs":"")+(sel&&sel.s==s&&sel.c==c?" sel":"")+'" data-s="'+s+'" data-c="'+c+'" style="--t:'+(1+s*.6)+'px"><span>'+(v==null?"":v)+'</span></button>'}}
+ h+='<div class="l"></div>';for(let c=0;c<S.cols;c++){const b0=bs(S.du[c]);h+='<button class="d'+(S.rs[c]?" rs":"")+'" data-c="'+c+'">'+(S.rs[c]?"p":"")+DL[b0]+(b0*1.5==S.du[c]?".":"")+'</button>'}g.innerHTML=h;curd();padUp()}
+function ensure(c){const w=$("wrap"),x=colX(c),e=x+wd(S.du[c]);if(x<w.scrollLeft+40)w.scrollLeft=x-40;else if(e>w.scrollLeft+w.clientWidth)w.scrollLeft=e-w.clientWidth}
+function setSel(s,c){const o=sel&&el(sel.s,sel.c);if(o)o.classList.remove("sel");sel={s:s,c:c};el(s,c).classList.add("sel");ensure(c);curd();padUp();
+ $("pad").hidden=true;$("pad").hidden=false;$("hint").hidden=true;const v=S.cells[s][c];if(v!=null&&!S.rs[c])pluck(freq(s,v),dsec(c))}
+function setVal(n){const c=sel.c;S.cells[sel.s][c]=n;if(n!=null&&S.rs[c]){S.rs[c]=0;grid()}else el(sel.s,c).firstChild.textContent=n==null?"":n;if(n!=null)pluck(freq(sel.s,n),dsec(c));save();padUp()}
+function padUp(){if(!sel)return;const c=sel.c,u=S.du[c],b0=bs(u);document.querySelectorAll("#dur button").forEach(b=>b.classList.toggle("act",b.dataset.u=="dot"?b0*1.5==u:+b.dataset.u==b0));document.querySelector('#acts [data-a="p"]').classList.toggle("act",!!S.rs[c])}
+function curd(){document.querySelectorAll(".d.cur").forEach(e=>e.classList.remove("cur"));if(sel){const e=document.querySelector('.d[data-c="'+sel.c+'"]');if(e)e.classList.add("cur")}}
+function closePad(){const o=sel&&el(sel.s,sel.c);if(o)o.classList.remove("sel");sel=null;$("pad").hidden=true;$("hint").hidden=false;curd()}
+$("nums").innerHTML=Array.from({length:18},(_,i)=>'<button data-n="'+i+'">'+i+'</button>').join("");
+$("dur").innerHTML=DB.map(b=>'<button data-u="'+b+'">'+DL[b]+'</button>').join("")+'<button data-u="dot" aria-label="Nuqtali">nuqta</button>';
+$("grid").onclick=e=>{const b=e.target.closest(".c,.d");if(b)setSel(b.dataset.s==null?(sel?sel.s:0):+b.dataset.s,+b.dataset.c)};
+$("pad").onclick=e=>{const b=e.target.closest("button");if(!b||!sel)return;
+ if(b.dataset.n!=null)return setVal(+b.dataset.n);
+ if(b.dataset.u){const k=sel.c,u=S.du[k],b0=bs(u),dt=b0*1.5==u;S.du[k]=b.dataset.u=="dot"?(dt?b0:b0*1.5):(dt?+b.dataset.u*1.5:+b.dataset.u);grid();save();return}
+ const a=b.dataset.a,s=sel.s,c=sel.c;
+ if(a=="l")setSel(s,Math.max(0,c-1));else if(a=="r")setSel(s,Math.min(S.cols-1,c+1));
+ else if(a=="u")setSel(Math.max(0,s-1),c);else if(a=="d")setSel(Math.min(S.tun.length-1,s+1),c);
+ else if(a=="c")setVal(null);else if(a=="p"){const k=sel.c;S.rs[k]=S.rs[k]?0:1;if(S.rs[k])for(let i=0;i<S.tun.length;i++)S.cells[i][k]=null;grid();save()}else closePad()};
+function resize(d){const n=Math.min(64,Math.max(4,S.cols+d));if(n==S.cols)return;
+ S.cells.forEach(r=>{while(r.length<n)r.push(null);r.length=n});while(S.du.length<n){S.du.push(2);S.rs.push(0)}S.du.length=S.rs.length=n;S.cols=n;if(sel&&sel.c>=n)sel.c=n-1;grid();save()}
+$("addc").onclick=()=>resize(4);$("remc").onclick=()=>resize(-4);
+function rowsUp(){const n=S.tun.length;document.querySelectorAll(".rc").forEach(e=>e.textContent="Qator: "+n+"/6");document.querySelectorAll(".addS").forEach(b=>b.disabled=n>=6);document.querySelectorAll(".remS").forEach(b=>b.disabled=n<=1)}
+function rowsCh(d){const n=S.tun.length;if(d>0&&n<6){S.tun.push(["A4","E4","A3","E3","A2","D2"][n]);S.cells.push(Array(S.cols).fill(null))}else if(d<0&&n>1){S.tun.pop();S.cells.pop();if(sel&&sel.s>=n-1)sel.s=n-2}else return;save();grid();tview();rowsUp()}
+document.querySelectorAll(".addS").forEach(b=>b.onclick=()=>rowsCh(1));document.querySelectorAll(".remS").forEach(b=>b.onclick=()=>rowsCh(-1));rowsUp();
+function mark(c){document.querySelectorAll(".ph").forEach(e=>e.classList.remove("ph"));if(c<0)return;
+ document.querySelectorAll('[data-c="'+c+'"]').forEach(e=>e.classList.add("ph"));const w=$("wrap");w.scrollLeft=colX(c)-w.clientWidth/2}
+function stop(){playing=false;clearTimeout(timer);$("play").textContent="Ijro etish";$("play").classList.remove("on");mark(-1)}
+function play(){if(playing)return stop();playing=true;$("play").textContent="Stop";$("play").classList.add("on");let c=0;
+ const step=()=>{if(!playing)return;if(c>=S.cols)return stop();mark(c);
+  for(let s=0;s<S.tun.length;s++){const v=S.cells[s][c];if(v!=null&&!S.rs[c])pluck(freq(s,v),dsec(c))}
+  const w=S.du[c]*15000/S.bpm;c++;timer=setTimeout(step,w)};step()}
+$("play").onclick=play;
+$("bpm").value=S.bpm;$("bv").textContent=S.bpm;
+$("bpm").oninput=e=>{S.bpm=+e.target.value;$("bv").textContent=S.bpm;save()};
+$("title").value=S.title;$("title").oninput=e=>{S.title=e.target.value;save()};
+function tview(){$("tun").innerHTML=S.tun.map((t,i)=>{const m=t.match(/^([A-G]#?)(\d)$/);
+ return '<div class="tr"><span>'+(i+1)+'-tor</span><select aria-label="Nota">'+NN.map(n=>'<option'+(n==m[1]?" selected":"")+'>'+n+'</option>').join("")+
+ '</select><select aria-label="Oktava">'+[1,2,3,4,5,6].map(o=>'<option'+(o==m[2]?" selected":"")+'>'+o+'</option>').join("")+
+ '</select><button data-i="'+i+'">Tinglash</button></div>'}).join("")}
+$("tun").onchange=e=>{const r=e.target.closest(".tr"),i=[...$("tun").children].indexOf(r),q=r.querySelectorAll("select");
+ S.tun[i]=q[0].value+q[1].value;save();grid();pluck(freq(i,0))};
+$("tun").onclick=e=>{const b=e.target.closest("button");if(b)pluck(freq(+b.dataset.i,0))};
+let wt=null;$("wipe").onclick=function(){if(!wt){this.textContent="Aniq tozalansinmi? Yana bosing";wt=setTimeout(()=>{wt=null;this.textContent="Hammasini tozalash"},3000);return}
+ clearTimeout(wt);wt=null;this.textContent="Hammasini tozalash";const t=S.tun;S=def();S.tun=t;S.cells=t.map(()=>Array(S.cols).fill(null));sel=null;$("pad").hidden=true;$("hint").hidden=false;
+ $("title").value="";$("bpm").value=S.bpm;$("bv").textContent=S.bpm;grid();save()};
+function txt(){let o=S.title?S.title+"\n\n":"";
+ for(let a=0;a<S.cols;a+=8){for(let s=0;s<S.tun.length;s++){let l=S.tun[s].replace(/\d/,"").padEnd(2)+"|";
+  for(let c=a;c<Math.min(a+8,S.cols);c++){const v=S.cells[s][c];l+=v==null?"----":(v+"---").slice(0,4);if((c+1)%4==0)l+="|"}o+=l+"\n"}let r="  |";for(let c=a;c<Math.min(a+8,S.cols);c++){const b0=bs(S.du[c]);r+=((S.rs[c]?"r":"")+DC[b0]+(b0*1.5==S.du[c]?".":"")+"    ").slice(0,4);if((c+1)%4==0)r+="|"}o+=r+"\n\n"}return(o+"Choʻzim: 16=1/16, 8=1/8, 4=1/4, 2=1/2, 1=butun, nuqta=1.5 baravar, r=pauza").trim()}
+$("copy").onclick=async function(){const t=txt();let ok=false;try{await navigator.clipboard.writeText(t);ok=true}catch(e){
+ try{const r=document.createRange();r.selectNodeContents($("out"));const s=getSelection();s.removeAllRanges();s.addRange(r);ok=document.execCommand("copy")}catch(e2){}}
+ this.textContent=ok?"Nusxalandi":"Matnni belgilab nusxalang";setTimeout(()=>this.textContent="Nusxa olish",2000)};
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x==b));
+ document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id=="v-"+b.dataset.v));
+ if(b.dataset.v=="set")tview();if(b.dataset.v=="txt")$("out").textContent=txt();if(b.dataset.v!="tab")stop()});
+try{const th=localStorage.getItem("rubob-theme");if(th)R.dataset.theme=th}catch(e){}
+$("thm").onclick=()=>{const cur=R.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"),n=cur=="dark"?"light":"dark";
+ R.dataset.theme=n;try{localStorage.setItem("rubob-theme",n)}catch(e){}};
+grid();
+</script>
+</body>
+</html>
